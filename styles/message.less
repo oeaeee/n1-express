@@ -1,28 +1,5 @@
 // Message
 
-@keyframes slideExpandHeight {
-    0%    { max-height: 0; }
-    100%  { max-height: 300px; }
-}
-
-@keyframes slideExpandWidth {
-    0%    { max-width: 0; }
-    100%  { max-width: 200px; }
-}
-
-@keyframes scaleIn {
-    0%    { transform: scale(0,1); max-width: 0px;}
-    100%  { transform: scale(1,1); max-width: 340px;}
-}
-@keyframes fadeIn {
-    0%    { opacity:0; }
-    100%  { opacity:1.0; }
-}
-@keyframes flashIn {
-    0%    { background-color: @white; }
-    100%  { background-color: transparent; }
-}
-
 .column-MessageList {
     #message-list {
         background-color: @white;
@@ -75,7 +52,6 @@
                             display: flex;
                             flex-direction: column;
                             min-height: @msg-header-fields-height;
-                            border-bottom: 1px dotted #dfdfdf;
 
                             .participants {
                                 padding: @msg-padding;
@@ -89,20 +65,23 @@
                                     padding: 0 @msg-padding-h;
                                     min-height: @msg-header-fields-height/2;
                                     border:none;
+
                                     &.from-participants {
                                         align-items: flex-end;
                                     }
                                     &.to-participants {
                                         align-items: flex-start;
+                                        border-bottom: 1px dotted #dfdfdf;
                                     }
                                 }
                             }
-                                .header-row {
-                                    padding: 8px @msg-padding-h;
-                                    margin:0;
-                                }
+                            .header-row {
+                                padding: 8px @msg-padding-h;
+                                margin:0;
+                            }
 
-                            .message-header-right {
+                            .message-header-right,
+                            .pending-spinner {
                                 position: absolute;
                                 top:0;
                                 right:0;
@@ -112,9 +91,16 @@
                                 align-items: center;
                                 border:none;
 
+                                & > * {
+                                    align-items: center;
+                                }
                                 .message-time {
                                     padding:0;
                                 }
+                            }
+                            .pending-spinner {
+                                left:0;
+                                right:auto;
                             }
                             .collapsed-participants {
                                 margin:0;
@@ -144,8 +130,11 @@
                             border:0;
                             border-radius:0;
                             margin:0;
+                            max-height: 0;
                             background-color: @blueBase;
                             animation: slideExpandHeight 0.5s ease-in;
+                            animation-delay: 0.5s;
+                            animation-fill-mode: forwards;
 
                             .event-header {
                                 border:none;
@@ -157,11 +146,11 @@
                                 color: @grayMed;
                             }
                         }
-                        iframe {
-                            margin:0;
+                        .iframe-container {
                             padding: @msg-padding-h @msg-padding-h;
                             box-sizing: content-box;
                             width: calc(~"100%" - 2*@msg-padding-h);
+                            margin:0;
                         }
 
                         .download-all {
@@ -266,6 +255,7 @@
             max-width: @msg-max-width;
             box-shadow: @msg-shadow;
             border:none;
+            margin-top:0;
 
             .footer-reply-area {
                 max-width: @msg-max-width;
@@ -302,7 +292,6 @@
                             height:0;
                             display: flex;
                             align-items: center;
-                            border-bottom: 1px solid #dfdfdf;
 
                             .action {
                                 display: inline-block;
@@ -327,13 +316,12 @@
                             }
                         }
                         .collapsed-composer-participants {
-                            border-bottom: 1px solid #dfdfdf;
+                            line-height: 36px;
+                            padding: 12px @msg-padding-h;
                             margin:0;
-                            padding: @msg-padding-v @msg-padding-h;
-                            display: flex;
-                            align-items: center;
-                            white-space: nowrap;
                             height:@msg-header-fields-height;
+                            border-bottom: 1px solid #dfdfdf;
+                            white-space: nowrap;
 
                             .collapsed-contact {
                                 display: inline-block;
@@ -361,22 +349,19 @@
 
                             .composer-participant-field {
                                 line-height: 36px;
-                                padding: @msg-padding-v @msg-padding-h;
+                                padding: 12px @msg-padding-h;
                                 margin:0;
-                                display: flex;
-                                align-items: center;
                                 min-height: @msg-header-fields-height;
                                 border-bottom: 1px solid #dfdfdf;
 
-                                .tokenizing-field-label,
-                                .composer-field-label {
+                                .tokenizing-field-label {
                                     width:48px;
                                     padding: 0;
-                                    margin-top:2px;
                                     position: absolute;
                                 }
 
                                 .tokenizing-field-input {
+                                    padding:0;
                                     padding-left:48px;
 
                                     .token {
@@ -406,8 +391,19 @@
                                     display: inline;
                                     vertical-align: top;
                                 }
-                                &:last-of-type {
+                                &:not(.to-field) {
+
+                                    .composer-field-label {
+                                        display: inline-block;
+                                        width: 48px;
+                                        padding: 0;
+                                    }
+                                    span {
+                                        top: auto !important;
+                                        left: auto !important;
+                                    }
                                 }
+
                             }
                         }
                     }

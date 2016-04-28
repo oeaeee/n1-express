@@ -158,3 +158,35 @@ rgba(253,253,253,0.75) 100%);
 @text-color-link:        @blue;
 @text-color-link-hover:  @blue-dark;
 @text-color-link-active: @blue-dark;
+
+//============================= Animations =============================//
+
+@keyframes slideExpandHeight {
+    0%    { max-height: 0; }
+    100%  { max-height: 300px; }
+}
+
+@keyframes slideExpandWidth {
+    0%    { max-width: 0; }
+    100%  { max-width: 400px; }
+}
+@keyframes scaleIn {
+    0%    { transform: scale(0,0); }
+    100%  { transform: scale(1,1); }
+}
+@keyframes scaleInHeight {
+    0%    { transform: scale(1,0); }
+    100%  { transform: scale(1,1); }
+}
+@keyframes scaleInWidth {
+    0%    { transform: scale(0,1); }
+    100%  { transform: scale(1,1); }
+}
+@keyframes fadeIn {
+    0%    { opacity:0; }
+    100%  { opacity:1.0; }
+}
+@keyframes flashIn {
+    0%    { background-color: @white; }
+    100%  { background-color: transparent; }
+}
